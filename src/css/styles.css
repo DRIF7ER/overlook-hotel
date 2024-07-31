@@ -1,4 +1,81 @@
+/*
+***********************
+*>>>>> BIG STUFF <<<<<*
+***********************
+*/
 
 body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  justify-content: center;
   background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
 }
+
+.mock-page-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+/*
+************************
+*>>>>> LOGIN PAGE <<<<<*
+************************
+*/
+
+.mock-page-wrap-login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.form-wrap-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 60%;
+}
+
+.user-login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 50%;
+  /* border-bottom-right-radius: 20%;
+  border-top-left-radius: 20%; */
+  border-radius: .5em 50%;
+  background-color: #74c8cf;
+  input {
+    width: 40%;
+  }
+  button {
+    width: 25%;
+    height: 8%;
+    margin-top: 1%;
+  }
+}
+
+
+
+
+/*
+*********************
+*>>>>> NAME ME <<<<<*
+*********************
+*/
