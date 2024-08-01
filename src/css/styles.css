@@ -71,6 +71,65 @@ body {
   }
 }
 
+/*
+***************************
+*>>>>> CUSTOMER PAGE <<<<<*
+***************************
+*/
+
+.customer-page-inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.books-button {
+  width: 8%;
+  height: 4%;
+}
+
+/* .my-bookings {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 80%;
+  height: 30%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  white-space: nowrap;
+  border-radius: 10px;
+  background-color: rgb(54, 85, 85);
+} */
+
+.my-bookings {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 21%;
+  align-items: center;
+  width: 80%;
+  height: 30%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  white-space: nowrap;
+  border-radius: 10px;
+  background-color: rgb(54, 85, 85);
+}
+
+.booking-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10%;
+  width: 90%;
+  height: 75%;
+  border-radius: 5px;
+  background-color: rgb(81, 13, 88);
+}
 
 
 

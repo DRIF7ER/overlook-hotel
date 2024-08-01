@@ -13,3 +13,4 @@ console.log('This is the JavaScript entry file - your code begins here.');
 // console.log('Works?');
 
 import { testPrint, checkLogin, loginBtn, usernameInput, userPasswordInput } from './dom-manipulation.js';
+import { getCustomerData } from './api-calls.js';
