@@ -1,6 +1,5 @@
 import './scripts.js';
-import { getCustomerData, getCustomerRecords, callForLogin, foundCustomer } from './api-calls.js';
-import { customerBookings, bookingBreakdown } from './data-manipulation.js';
+import { getCustomerData, getCustomerRecords, checkForCustomer, foundCustomer, roomList, hotelRooms, specificCustomer, roomsArray, bookingsArray, bookings } from './api-calls.js';
 
 
 /*
@@ -23,14 +22,43 @@ export const loginBtn = document.getElementById('login-button-actual');
 export const myBooksDisplay = document.getElementById('bookings-display');
 export const showMyBooksBtn = document.getElementById('show-my-books-button-actual');
 
+
 /*
 *****************************
 *>>>>> EVENT LISTENERS <<<<<*
 *****************************
 */
 
-loginBtn.addEventListener('click', callForLogin);
+loginBtn.addEventListener('click', logInHandler);
+
 showMyBooksBtn.addEventListener('click', displayBookings);
+
+myBooksDisplay.addEventListener('click', event => {
+  let allDeetsBtn = document.querySelectorAll('#card-button-actual');
+  let deetsBtn = allDeetsBtn.values().find((button) => {
+    return button === event.target;
+  })
+  if (event.target === deetsBtn) {
+    displayBookDetails();
+  }
+});
+
+/*
+**********************
+*>>>>> HANDLERS <<<<<*
+**********************
+*/
+
+function logInHandler() {
+  checkForCustomer();
+  bookings();
+  setTimeout(() => {
+    displayBookings();
+  }, 500);
+  setTimeout(() => {
+    bookingsImages();
+  }, 750);
+}
 
 /*
 ***********************
@@ -39,44 +67,93 @@ showMyBooksBtn.addEventListener('click', displayBookings);
 */
 //vvvvvvvvvvvvvvv PAGE CHANGES vvvvvvvvvvvvvvv//
 
-
-// export function testPrint() {
-//   console.log('Worked.', event);
-//   if (event.keyCode === 13 && event.type === 'keyup') {
-//     console.log('Enter Worked.', event);
-//   }
-// }
-
-export async function checkLogin(aCustomerPerson) {
-  // const customerId = usernameInput.value.match(/(\d+)/)[0];
-  console.log('Check This login func in dom: ', aCustomerPerson)
+export async function checkPassword(aCustomerPerson) {
   if (usernameInput.value === aCustomerPerson && userPasswordInput.value === 'overlook2024') {
-    // console.log('conditiional worked', usernameInput.value.match(/(\d+)/))
     loginPage.classList.add('hidden');
     customerPage.classList.remove('hidden');
-    // getCustomerData(customerId)
   };
+
+  let customerObj = await specificCustomer(aCustomerPerson) 
+
+  let customerNameBanner = document.querySelector('.customer-name-banner')
+
+  customerNameBanner.textContent = `Welcome To Overlook ${customerObj.name}`;
 }
 
 //vvvvvvvvvvvvvvv PAGE CONTENT vvvvvvvvvvvvvvv//
 
 export function displayBookings() {
-  console.log('display func triggered')
-  showMyBooksBtn.classList.add('hidden');
-  myBooksDisplay.innerHTML = null;
+  let customerId = usernameInput.value.match(/(\d+)/)[0];
 
-  customerBookings.forEach((booking) => {myBooksDisplay.innerHTML += `
-    <div class="booking-card">
-      <p class="date">${booking.date}</p>
-      <p class="room">${booking.roomNumber}</p>
-      <button type="button" class="book-card-detals" id="card-button">View Booking Details</button>
+  showMyBooksBtn.classList.add('hidden');
+  let customerBookings = bookingsArray;
+  myBooksDisplay.innerHTML = null;
+  
+  customerBookings.forEach((booking) => {
+    let roomPrice = {};
+    roomsArray.find((room) => {
+      if (room.number === booking.roomNumber) {
+        return roomPrice = room;
+      };
+    });
+  
+  myBooksDisplay.innerHTML += `
+  <div class="booking-card">
+    <div class="date-and-room-wrap">
+      <div class="room-img-cont"></div>
+      <p class="date">Booked for: ${booking.date}</p>
+      <p class="room">Room Number: ${booking.roomNumber}</p>
     </div>
-        `})
+    <div class="card-details hidden">
+      <p class="cost-of-room">Price: $${roomPrice.costPerNight} per night</p>
+    </div>
+    <button type="button" class="book-card-detals" id="card-button-actual">View Booking Details</button>
+  </div>
+  `});
 };
 
-// window.addEventListener('loadend', displayBookings);
+function bookingsImages() {
+  let bookingsImgElements = document.querySelectorAll('.booking-card');
+  let roomImgElements = document.querySelectorAll('.new-room-card');
 
-// export {
-//   testPrint,
-//   checkLogin,
-// }
+  let bookingImgObjs = [];
+  let roomImgObjs = [];
+
+  bookingsImgElements.forEach((book) => {
+    console.log('in book img obj forEach');
+    let bookObj = {
+      roomNum: [book][0].children[0].children[2].innerText,
+      actualImg: [book][0].children[0].children[0],
+    };
+    bookingImgObjs.push(bookObj);
+  });
+
+  roomImgElements.forEach((room) => {
+    console.log('in room img obj forEach');
+    let roomObj = {
+      roomNum: [room][0].children[1].innerText,
+      actualImg: [room][0].children[0],
+    };
+    roomImgObjs.push(roomObj);
+  });
+
+  console.log(bookingImgObjs, roomImgObjs)
+
+  bookingImgObjs.forEach((bookObj) => {
+    roomImgObjs.forEach((roomObj) => {
+      if (bookObj.roomNum === roomObj.roomNum) {
+        bookObj.actualImg.innerHTML = `<img class="room-img" src="${roomObj.actualImg.src}" tabindex="0">`;
+      };
+    });
+  });
+};
+
+export function displayBookDetails() {
+  let cardDeets = document.querySelectorAll('.card-details');
+  cardDeets.forEach((card) => {
+    if (event.target.parentElement === card.parentElement) {
+      console.log('in if state disp books')
+      card.classList.remove('hidden');
+    };
+  });
+};
