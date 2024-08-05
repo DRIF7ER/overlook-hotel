@@ -20,7 +20,9 @@ export const userPasswordInput = document.getElementById('password');
 export const loginBtn = document.getElementById('login-button-actual');
 
 export const myBooksDisplay = document.getElementById('bookings-display');
-export const showMyBooksBtn = document.getElementById('show-my-books-button-actual');
+// export const showMyBooksBtn = document.getElementById('show-my-books-button-actual');
+export const totalSpent = document.getElementById('total-spent-actual');
+
 
 
 /*
@@ -31,7 +33,7 @@ export const showMyBooksBtn = document.getElementById('show-my-books-button-actu
 
 loginBtn.addEventListener('click', logInHandler);
 
-showMyBooksBtn.addEventListener('click', displayBookings);
+// showMyBooksBtn.addEventListener('click', displayBookings);
 
 myBooksDisplay.addEventListener('click', event => {
   let allDeetsBtn = document.querySelectorAll('#card-button-actual');
@@ -57,6 +59,7 @@ function logInHandler() {
   }, 500);
   setTimeout(() => {
     bookingsImages();
+    getMonies();
   }, 750);
 }
 
@@ -85,7 +88,7 @@ export async function checkPassword(aCustomerPerson) {
 export function displayBookings() {
   let customerId = usernameInput.value.match(/(\d+)/)[0];
 
-  showMyBooksBtn.classList.add('hidden');
+  // showMyBooksBtn.classList.add('hidden');
   let customerBookings = bookingsArray;
   myBooksDisplay.innerHTML = null;
   
@@ -137,7 +140,7 @@ function bookingsImages() {
     roomImgObjs.push(roomObj);
   });
 
-  console.log(bookingImgObjs, roomImgObjs)
+  // console.log(bookingImgObjs, roomImgObjs)
 
   bookingImgObjs.forEach((bookObj) => {
     roomImgObjs.forEach((roomObj) => {
@@ -146,6 +149,40 @@ function bookingsImages() {
       };
     });
   });
+};
+
+function getMonies () {
+  let bookingsCards = document.querySelectorAll('.booking-card');
+  
+  let bookingObjs = [];
+  
+  let totalCost = 0;
+  
+  console.log(bookingsArray[0]);
+  
+  bookingsCards.forEach((card) => {
+    roomsArray.forEach((room) => {
+      // let bookingRoomNum = bookingsCards[card].children[0].children[2].innerText.match(/(\d+)/)[0];
+      if (card.children[0].children[2].innerText.match(/(\d+)/)[0] == room.number) {
+        let cardObj = {
+          roomNum: card.children[0].children[2].innerText.match(/(\d+)/)[0],
+          // bookingDate: ,
+          roomPrice: room.costPerNight,
+        };
+        bookingObjs.push(cardObj);
+      };
+    });
+  });
+
+  console.log(bookingObjs)
+  
+  bookingObjs.forEach((obj) => {
+    totalCost += obj.roomPrice;
+  });
+
+  console.log('totalCost: ', totalCost) // Finish get monies.
+
+  totalSpent.innerText = `Total Spent: ${totalCost.toFixed(2)}`
 };
 
 export function displayBookDetails() {

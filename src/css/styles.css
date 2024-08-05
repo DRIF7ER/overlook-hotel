@@ -145,7 +145,17 @@ body {
   height: 55%;
 }
 
-.card-details {}
+/* .card-details {} */
+
+.money-stuff {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 80%;
+  height: 15%;
+  border-radius: 5px;
+  background-color: rgb(54, 85, 85);
+}
 
 .new-booking-bar {
   display: grid;
