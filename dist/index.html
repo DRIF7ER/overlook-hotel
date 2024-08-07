@@ -4,10 +4,49 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Timmana&display=swap" rel="stylesheet">
   <title>Webpack Starter Kit</title>
 </head>
 <body>
-  <img src="./images/turing-logo.png" alt="turing logo">
+  <div class="mock-page-wrap login-page" id="login-page-id">
+    <div class="form-wrap-inner">
+      <form class="user-login-form">
+        <label for="username">Username: </label>
+        <input type="text" id="username">
+        <label for="password">Password: </label>
+        <input type="text" id="password">
+        <button type="button" class="login-button" id="login-button-actual">Log In</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="mock-page-wrap customer-page hidden" id="customer-page-id">
+    <div class="customer-page-inner">
+      <h1 class="customer-name-banner"></h1>
+      <section class="my-bookings" id="bookings-display">
+        <!-- 
+        <div class="booking-card">
+          <p class="date">Date</p>
+          <p class="room">Room Number</p>
+          <button type="button" class="book-card-detals" id="card-button">View Booking Details</button>
+        </div> 
+        -->
+      </section>
+      <!-- <button class="books-button" id="show-my-books-button-actual">Show My Bookings</button> -->
+       <section class="money-stuff" id="money-bar">
+         <p class="total-spent" id="total-spent-actual"></p>
+       </section>
+      <section class="new-booking-bar" id="new-bookings-actual">
+        <!-- 
+        <div class="new-room-card" id="new-room-card-actual" tabindex="0">
+          <img class="room-img" src="" tabindex="0">
+          <p class="room-type"></p>
+          <p class="bed-size"></p>
+          <p class="num-of-beds"></p>
+          <p class="cost"></p>
+        </div> 
+        -->
+      </section>
   
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
