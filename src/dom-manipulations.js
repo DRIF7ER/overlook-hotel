@@ -22,6 +22,10 @@ let moniesBar = document.getElementById("money-bar");
 let hotelRoomsDisplay = document.getElementById("new-bookings-actual");
 
 export let roomTypeChoice = document.getElementById('room-types');
+export let dateInput = document.getElementById('date-input');
+
+console.log(roomTypeChoice.options[roomTypeChoice.selectedIndex].value);
+
 let newBookingsDisplay = document.getElementById("room-choice-results");
 let roomTypeBtn = document.getElementById("room-type-button-actual");
 
@@ -155,37 +159,34 @@ export function showMonies(someData) {
   moniesBar.children[0].innerText = `Total Cost Of All Current Bookings: $${someData}`
 };
 
-export function getNewBookingsDisplay() {
-  // console.log('HERE: ', roomTypeChoice.value)
+export function getNewBookingsDisplay(aList) {
+  console.log('HERE: ', aList)
 
-  let previewCards = document.querySelectorAll(".new-room-card")
+  // let previewCards = document.querySelectorAll(".new-room-card")
 
-  // console.log(previewCards[0].children[2].innerText === `Room Type: ${roomTypeChoice.value}`)
   newBookingsDisplay.innerHTML = '';
 
-  previewCards.forEach((card) => {
-    // console.log('HERE 2: ', card.children[2].innerText)
-    if (card.children[2].innerText === `Room Type: ${roomTypeChoice.value}`) {
-      console.log('worked', card.classList[0])
-
-      let prevCard = document.querySelector(`.${[card.classList[0]]}`);
-      let cloneCard = prevCard.cloneNode(true);
-
-      console.log(cloneCard)
-      newBookingsDisplay.appendChild(cloneCard);
-      // let cardCopy = `
-      // <div class="new-room-card" id="new-room-card-actual" tabindex="0">
-      //   <${card.children[0]}>
-      //   ${card.children[1]}
-      //   ${card.children[2]}
-      //   ${card.children[3]}
-      //   ${card.children[4]}
-      //   ${card.children[5]}
-      // </div>`;
-      
-      // newBookingsDisplay.innerHTML += cardCopy;
-      // console.log(cardCopy)
+  aList.forEach((room) => {
+    let roomObj = {
+      sizeOfBed: room.bedSize,
+      hasBidet: room.bidet,
+      pricePerNight: room.costPerNight,
+      bedNum: room.numBeds,
+      rmNum: room.number,
+      imgForRoom: room.roomImg,
+      typeOfRoom: room.roomType,
     }
+    console.log('ALSO HERE: ', roomObj)
+
+    newBookingsDisplay.innerHTML += `
+    <div class="book-this-room-card" id="book-this-room-actual" tabindex="0">
+        <img class="room-img" src="./images/hotel-pic-${roomObj.imgForRoom}.png" tabindex="0">
+        <p class="room-number hidden">Room Number: ${roomObj.rmNum}</p>
+        <p class="room-type">Room Type: ${roomObj.typeOfRoom}</p>
+        <p class="bed-size">Bed Size: ${roomObj.sizeOfBed}</p>
+        <p class="num-of-beds">Beds: ${roomObj.bedNum}</p>
+        <p class="cost">Per Night: $${roomObj.pricePerNight}</p>
+    </div>`;
   });
 };
 

@@ -352,6 +352,8 @@ describe("should filter rooms by type and/or feature", function() {
     let testFilter2 = roomTypeFilter(testRooms.rooms, "single room");
     let testFilter3 = roomTypeFilter(testRooms.rooms, "junior suite");
 
+    console.log(testFilter3, '<--  TEST ROOMS HERE')
+
     expect(testFilter1).to.deep.equal([
       {
         number: 2,

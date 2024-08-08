@@ -31,8 +31,8 @@
  */
 
 import { testRooms } from '../test/test-data.js';
-import { fetchCustomer, fetchBookings, fetchRooms, roomsArray, postNewBooking } from './api-calls.js';
-import { displayContent, getNewBookingsDisplay, showMonies } from './dom-manipulations.js';
+import { fetchCustomer, fetchBookings, fetchRooms, roomsArray, postNewBooking, fetchBookingsForDateSearch } from './api-calls.js';
+import { displayContent, getNewBookingsDisplay, showMonies, roomTypeChoice, dateInput } from './dom-manipulations.js';
 
 /*
 ****************************
@@ -114,7 +114,7 @@ export function getTotalMoneySpent(someData) {
 */
 
 export function getRoomsByDate(someData = '') {
-  console.log('HERE IN ROOMS BY DATE: ', someData);
+  // console.log('HERE IN ROOMS BY DATE: ', someData);
 
   let sortedByDate = someData.reduce((acc, booking) => {
     let dateAndRoomObj = {
@@ -125,23 +125,11 @@ export function getRoomsByDate(someData = '') {
     return acc;
   }, []);
 
-  // let sortedByDate = someData.reduce((acc, booking) => {
-
-  //   let brakeDate = booking.date.split('/');
-    
-  //   let sortedObj = {
-  //     year: brakeDate[0],
-  //     month: brakeDate[1],
-  //     day: brakeDate[2],
-  //     room: booking.roomNumber,
-  //   };
-
-  //   // console.log('Date as a number: ', sortedObj)
-  //   acc.push(sortedObj)
-  //   return acc;
-  // }, []);
-
-  // console.log('sortedByDate: ', sortedByDate)
+  // console.log('AFTER REDUCE IN ROOMS BY DATE: ', someData[0].date);
+  
+  if (someData[0].date !== "2022/01/15") {
+    checkRoomAvailiability(sortedByDate, roomsArray, dateInput.value = '');
+  };
   return sortedByDate;
 };
 
@@ -166,7 +154,13 @@ export function checkRoomAvailiability(listOfRoomsByDate, aRoomList, aDate) {
   });
 
   // console.log(anotherResult, '<-- DIS ONE 2')
+  // console.log(result !== [ 1, 3, 5, 7, 9 ], '<-- DIS ONE 2')
 
+  
+  if (listOfRoomsByDate[0].date !== '2022/01/15') {
+    dateInput.value = '';
+    getNewBookingsDisplay(anotherResult);
+  };
   return anotherResult;
 };
 
@@ -176,15 +170,34 @@ export function checkRoomAvailiability(listOfRoomsByDate, aRoomList, aDate) {
 ***********************************
 */
 
-export function roomTypeFilter(roomTypeChoice) {
-  console.log('In room type filter: ', roomsArray)
+export function roomTypeFilter(aRoomsList = '', aTypeString = '') {
+  console.log('In room type filter: ', aRoomsList, aTypeString)
+
+  if (aRoomsList.length !== 10) {
+    if (dateInput.value !== '') {
+      console.log('should be true: ', dateInput.value !== '')
+      fetchBookingsForDateSearch();
+    };
+  };
+
+  if (aRoomsList.length === 10) {
+    console.log('test hit');
+    typeList = aRoomsList.filter((room) => {
+      console.log('In Filter for filter: ', aTypeString)
+      return room.roomType === aTypeString;
+    });
+    return typeList;
+  };
 
   typeList = roomsArray.filter((room) => {
-    return room.roomType === roomTypeChoice;
+    console.log('In Filter for filter: ', roomTypeChoice.value)
+    return room.roomType === roomTypeChoice.value;
   })
 
   console.log("typeList: ", typeList)
-  getNewBookingsDisplay(typeList);
+  if (aRoomsList.length !== 10) {
+    getNewBookingsDisplay(typeList);
+  };
   return typeList
 };
 

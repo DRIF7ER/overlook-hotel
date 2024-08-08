@@ -1,4 +1,4 @@
-import { currentCustomer, getBookings, getCustomer, getRoomReference } from "./data-manipulation.js";
+import { currentCustomer, getBookings, getCustomer, getRoomReference, getRoomsByDate } from "./data-manipulation.js";
 
 export let roomsArray = [];
 
@@ -41,6 +41,13 @@ export async function fetchBookings(someData) {
   });
 
   getBookings(parsedCustomerBookings);
+};
+
+export async function fetchBookingsForDateSearch() {
+  const fetchBooks = await fetch("http://localhost:3001/api/v1/bookings");
+  const booksFetched = await fetchBooks.json();
+
+  getRoomsByDate(booksFetched.bookings)
 };
 
 export async function fetchRooms() {
