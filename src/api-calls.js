@@ -1,4 +1,5 @@
 import { currentCustomer, getBookings, getCustomer, getRoomReference, getRoomsByDate } from "./data-manipulation.js";
+import { dateInput } from "./dom-manipulations.js";
 
 export let roomsArray = [];
 
@@ -64,17 +65,33 @@ export async function fetchRooms() {
 };
 
 export async function postNewBooking(anID, aDateString, aRoomNum) {
-  const fetchToPost = await fetch("http://localhost:3001/api/v1/bookings",{
-    method: 'POST',
-    body: JSON.stringify(
-      { "userID": anID, "date": aDateString, "roomNumber": aRoomNum }
-    ),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  const postToFetch = await fetchToPost.json()
-  console.log(postToFetch)
+  console.log('triggered POST: ')
+  anID = currentCustomer.customerID;
+  aDateString = dateInput.value;
+  aRoomNum = +event.target.parentElement.children[1].innerText.match(/(\d+)/)[0];
+
+  console.log(typeof +event.target.parentElement.children[1].innerText.match(/(\d+)/)[0])
+
+  if (anID === '') {
+    console.log('Need ID')
+  } else if (aDateString === '') {
+    console.log('Need a Date')
+  } else if (aRoomNum === '') {
+    console.log('Need a Room Number')
+  } else {
+    const fetchToPost = await fetch("http://localhost:3001/api/v1/bookings",{
+      method: 'POST',
+      body: JSON.stringify(
+        { "userID": anID, "date": aDateString, "roomNumber": aRoomNum }
+      ),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const postToFetch = await fetchToPost.json()
+  };
+
+  // console.log(postToFetch)
 };
 
 // postNewBooking();

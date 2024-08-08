@@ -1,4 +1,4 @@
-import { fetchCustomer, roomsArray } from "./api-calls.js";
+import { fetchCustomer, postNewBooking, roomsArray } from "./api-calls.js";
 import { currentCustomer, roomTypeFilter, typeList } from "./data-manipulation.js";
 
 /*
@@ -160,7 +160,7 @@ export function showMonies(someData) {
 };
 
 export function getNewBookingsDisplay(aList) {
-  console.log('HERE: ', aList)
+  // console.log('HERE: ', aList)
 
   // let previewCards = document.querySelectorAll(".new-room-card")
 
@@ -176,7 +176,7 @@ export function getNewBookingsDisplay(aList) {
       imgForRoom: room.roomImg,
       typeOfRoom: room.roomType,
     }
-    console.log('ALSO HERE: ', roomObj)
+    // console.log('ALSO HERE: ', roomObj)
 
     newBookingsDisplay.innerHTML += `
     <div class="book-this-room-card" id="book-this-room-actual" tabindex="0">
@@ -186,9 +186,20 @@ export function getNewBookingsDisplay(aList) {
         <p class="bed-size">Bed Size: ${roomObj.sizeOfBed}</p>
         <p class="num-of-beds">Beds: ${roomObj.bedNum}</p>
         <p class="cost">Per Night: $${roomObj.pricePerNight}</p>
+        <button class="book-this-room-button" id="book-this-button">Book This Room</button>
     </div>`;
   });
+
+  assignBookListeners();
 };
+
+function assignBookListeners() {
+  let bookBtns = document.querySelectorAll('#book-this-button');
+
+  bookBtns.forEach((button) => {
+    button.addEventListener('click', postNewBooking)
+  });
+}
 
 
 
