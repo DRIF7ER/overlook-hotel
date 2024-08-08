@@ -7,6 +7,8 @@ import { currentCustomer } from "./data-manipulation.js";
 ***********************
 */
 
+let siteBody = document.getElementById("body-actual");
+
 let usernameInput = document.getElementById("username");
 let userPasswordInput = document.getElementById("password");
 let loginBtn = document.getElementById("login-button-actual");
@@ -53,7 +55,7 @@ async function callForLogin() {
     // console.log('log > cust success')
     loginPage.classList.add('hidden');
     customerDashboard.classList.remove('hidden');
-    // displayContent(currentCustomer)
+    siteBody.classList.remove('before-customer-page')
   };
 };
 

@@ -1,8 +1,10 @@
 import chai from "chai";
 const expect = chai.expect;
 
-import { currentCustomer, getBookings, getCustomer, getRoomReference, getTotalMoneySpent } from "../src/data-manipulation.js";
-import { testRooms, testBookings, testCustomers } from "./test-data.js";
+import { currentCustomer, getBookings, getCustomer, getRoomReference,
+   getTotalMoneySpent, getRoomsByDate, 
+   checkRoomAvailiability } from "../src/data-manipulation.js";
+import { testRooms, testBookings, testBookings2, testCustomers } from "./test-data.js";
 
 describe("build a customer block", function() {
   it("should be a function", function() {
@@ -249,4 +251,97 @@ describe("build a customer block", function() {
     ]);
     expect(testMoneySpent).to.equal('1001.95');
   });
+});
+
+describe("be able to sort and add new bookings", function() {
+  it("should be function", function() {
+    expect(getRoomsByDate).to.be.a('function');
+  });
+
+  it("be able to sort available rooms for a specific date.", function() {
+    let testSort = getRoomsByDate(testBookings2.bookings);
+
+    expect(testSort).to.deep.equal([
+      { date: '2022/01/15', room: 1 },
+      { date: '2022/01/15', room: 3 },
+      { date: '2022/01/15', room: 5 },
+      { date: '2022/01/15', room: 7 },
+      { date: '2022/01/15', room: 9 },
+      { date: '2022/02/25', room: 1 },
+      { date: '2022/02/25', room: 3 },
+      { date: '2022/02/25', room: 5 },
+      { date: '2022/02/25', room: 7 },
+      { date: '2022/02/25', room: 9 },
+      { date: '2022/03/20', room: 1 },
+      { date: '2022/03/20', room: 3 },
+      { date: '2022/03/20', room: 5 },
+      { date: '2022/03/20', room: 7 },
+      { date: '2022/03/20', room: 9 },
+      { date: '2022/04/17', room: 1 },
+      { date: '2022/04/17', room: 3 },
+      { date: '2022/04/17', room: 5 },
+      { date: '2022/04/17', room: 7 },
+      { date: '2022/04/17', room: 9 },
+      { date: '2022/05/05', room: 1 },
+      { date: '2022/05/05', room: 3 },
+      { date: '2022/05/05', room: 5 },
+      { date: '2022/05/05', room: 7 },
+      { date: '2022/05/05', room: 9 }
+    ]);
+  });
+
+  it("should return a list of availiable rooms for a given day", function() {
+    let testSort = getRoomsByDate(testBookings2.bookings);
+
+    let testADate = checkRoomAvailiability(testSort, '2022/01/15')
+
+    expect(testADate).to.deep.equal([
+      {
+        number: 2,
+        roomType: 'suite',
+        bidet: false,
+        bedSize: 'full',
+        numBeds: 2,
+        costPerNight: 477.38
+      },
+      {
+        number: 4,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 429.44
+      },
+      {
+        number: 6,
+        roomType: 'junior suite',
+        bidet: true,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 397.02
+      },
+      {
+        number: 8,
+        roomType: 'junior suite',
+        bidet: false,
+        bedSize: 'king',
+        numBeds: 1,
+        costPerNight: 261.26
+      },
+      {
+        number: 10,
+        roomType: 'suite',
+        bidet: false,
+        bedSize: 'twin',
+        numBeds: 1,
+        costPerNight: 497.64
+      }
+    ]);
+  });
+
+  // it("", function() {});
+});
+
+describe("should filter rooms by type and/or feature", function() {
+  it("should filter rooms by room type", function() {});
 });

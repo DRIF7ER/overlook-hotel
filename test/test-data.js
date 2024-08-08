@@ -180,6 +180,161 @@ export const testBookings = {
   ]
 };
 
+export const testBookings2 = {
+  bookings: [
+    {
+      "id": "5fwrgu4i7k55hl6sz",
+      "userID": 1,
+      "date": "2022/01/15",
+      "roomNumber": 1
+    },
+    {
+      "id": "5fwrgu4i7k55hl6t5",
+      "userID": 2,
+      "date": "2022/01/15",
+      "roomNumber": 3
+    },
+    {
+      "id": "5fwrgu4i7k55hl6t6",
+      "userID": 3,
+      "date": "2022/01/15",
+      "roomNumber": 5
+    },
+    {
+      "id": "5fwrgu4i7k55hl6t7",
+      "userID": 4,
+      "date": "2022/01/15",
+      "roomNumber": 7
+    },
+    {
+      "id": "5fwrgu4i7k55hl6t8",
+      "userID": 5,
+      "date": "2022/01/15",
+      "roomNumber": 9
+    },
+    {
+      "id": "5fwrgu4i7k55hl6t9",
+      "userID": 1,
+      "date": "2022/02/25",
+      "roomNumber": 1
+    },
+    {
+      "id": "5fwrgu4i7k55hl6ta",
+      "userID": 2,
+      "date": "2022/02/25",
+      "roomNumber": 3
+    },
+    {
+      "id": "5fwrgu4i7k55hl6tb",
+      "userID": 3,
+      "date": "2022/02/25",
+      "roomNumber": 5
+    },
+    {
+      "id": "5fwrgu4i7k55hl6tc",
+      "userID": 4,
+      "date": "2022/02/25",
+      "roomNumber": 7
+    },
+    {
+      "id": "5fwrgu4i7k55hl6td",
+      "userID": 5,
+      "date": "2022/02/25",
+      "roomNumber": 9
+    },
+    {
+      "id": "5fwrgu4i7k55hl6te",
+      "userID": 1,
+      "date": "2022/03/20",
+      "roomNumber": 1
+    },
+    {
+      "id": "5fwrgu4i7k55hl6tf",
+      "userID": 2,
+      "date": "2022/03/20",
+      "roomNumber": 3
+    },
+    {
+      "id": "5fwrgu4i7k55hl6tg",
+      "userID": 3,
+      "date": "2022/03/20",
+      "roomNumber": 5
+    },
+    {
+      "id": "5fwrgu4i7k55hl6th",
+      "userID": 4,
+      "date": "2022/03/20",
+      "roomNumber": 7
+    },
+    {
+      "id": "5fwrgu4i7k55hl6ti",
+      "userID": 5,
+      "date": "2022/03/20",
+      "roomNumber": 9
+    },
+    {
+      "id": "5fwrgu4i7k55hl6tj",
+      "userID": 1,
+      "date": "2022/04/17",
+      "roomNumber": 1
+    },
+    {
+      "id": "5fwrgu4i7k55hl6tk",
+      "userID":2,
+      "date": "2022/04/17",
+      "roomNumber": 3
+    },
+    {
+      "id": "5fwrgu4i7k55hl6tl",
+      "userID": 3,
+      "date": "2022/04/17",
+      "roomNumber": 5
+    },
+    {
+      "id": "5fwrgu4i7k55hl6tm",
+      "userID": 4,
+      "date": "2022/04/17",
+      "roomNumber": 7
+    },
+    {
+      "id": "5fwrgu4i7k55hl6tn",
+      "userID": 5,
+      "date": "2022/04/17",
+      "roomNumber": 9
+    },
+    {
+      "id": "5fwrgu4i7k55hl6to",
+      "userID": 1,
+      "date": "2022/05/05",
+      "roomNumber": 1
+    },
+    {
+      "id": "5fwrgu4i7k55hl6tp",
+      "userID": 2,
+      "date": "2022/05/05",
+      "roomNumber": 3
+    },
+    {
+      "id": "5fwrgu4i7k55hl6tq",
+      "userID": 3,
+      "date": "2022/05/05",
+      "roomNumber": 5
+    },
+    {
+      "id": "5fwrgu4i7k55hl6tr",
+      "userID": 4,
+      "date": "2022/05/05",
+      "roomNumber": 7
+    },
+    {
+      "id": "5fwrgu4i7k55hl6tr",
+      "userID": 5,
+      "date": "2022/05/05",
+      "roomNumber": 9
+    }
+  ]
+};
+
 export const testRooms = {
   rooms: [
     {

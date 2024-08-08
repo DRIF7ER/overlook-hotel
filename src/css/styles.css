@@ -9,22 +9,29 @@ body {
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 150vh;
+  height: 200vh;
   margin: 0;
   justify-content: center;
   background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
   font-family: "Timmana", sans-serif;
 }
 
+.before-customer-page {
+  height: 100vh !important;
+}
+
 .mock-page-wrap {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   height: 100%;
 }
 
 button {
+  display: flex;
+  justify-content: center;
+  align-items: end;
   width: 60%;
   height: 9%;
   border-radius: 15em 50%;
@@ -57,7 +64,7 @@ button {
   justify-content: center;
   align-items: center;
   width: 80%;
-  height: 60%;
+  height: 75%;
 }
 
 .user-login-form {
@@ -77,7 +84,7 @@ button {
   button {
     width: 25% !important;
     height: 8% !important;
-    margin-top: 1% !important;
+    margin-top: 2% !important;
     background-color: #00676f !important;
   }
 }
@@ -146,7 +153,7 @@ button {
   align-items: center;
   margin-left: 10%;
   width: 90%;
-  height: 85%;
+  height: 90%;
   border-radius: 5px;
   background-color: rgb(81, 13, 88);
 }
@@ -165,9 +172,9 @@ button {
 .money-stuff {
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
+  align-items: end;
   width: 80%;
-  height: 15%;
+  height: 10%;
   border-radius: 5px;
   background-color: rgb(54, 85, 85);
 }
@@ -232,6 +239,16 @@ button {
   width: 100%;
   object-fit: cover;
   aspect-ratio: 16 / 9;
+}
+
+.book-a-new-room {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 80%;
+  height: 15%;
+  border-radius: 5px;
+  background-color: #ffa011;
 }
 
 

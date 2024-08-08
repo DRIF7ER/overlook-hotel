@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Timmana&display=swap" rel="stylesheet">
   <title>Webpack Starter Kit</title>
 </head>
-<body>
+<body class="before-customer-page" id="body-actual">
   <div class="mock-page-wrap login-page" id="login-page-id">
     <div class="form-wrap-inner">
       <form class="user-login-form">
@@ -46,6 +46,13 @@
           <p class="cost"></p>
         </div> 
         -->
+      </section>
+      <section class="book-a-new-room" id="book-new-actual">
+        <ul class="search-options">
+          <li class="date-selection" id="date-choice"></li>
+          <li class="room-types" id="room-type-choices"></li>
+        </ul>
+        <div class="search-results" id="room-choice-results"></div>
       </section>
   
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
