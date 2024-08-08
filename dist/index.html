@@ -36,24 +36,39 @@
        <section class="money-stuff" id="money-bar">
          <p class="total-spent" id="total-spent-actual"></p>
        </section>
-      <section class="new-booking-bar" id="new-bookings-actual">
-        <!-- 
-        <div class="new-room-card" id="new-room-card-actual" tabindex="0">
-          <img class="room-img" src="" tabindex="0">
-          <p class="room-type"></p>
-          <p class="bed-size"></p>
-          <p class="num-of-beds"></p>
-          <p class="cost"></p>
-        </div> 
-        -->
-      </section>
+       
       <section class="book-a-new-room" id="book-new-actual">
         <ul class="search-options">
-          <li class="date-selection" id="date-choice"></li>
-          <li class="room-types" id="room-type-choices"></li>
+          <h2 class="booking-bar-title">Select A New Booking!</h2>
+          <label for="date-input">Date: </label>
+          <input type="text" id="date-input"placeholder="yyyy/mm/dd" aria-placeholder="yyyy/mm/dd">
+          <label for="room-types">Room Options: </label>
+          <select id="room-types">
+            <option value="Please select-a-room-type" selected>  Please Select A Room Type...  </option>
+            <option value="residential suite">Residential Suite</option>
+            <option value="junior suite">Junior Suite</option>
+            <option value="suite">Suite</option>
+            <option value="single room">Single Room</option>
+          </select>
+          <button class="room-type-button" id="room-type-button-actual">Search</button>
         </ul>
         <div class="search-results" id="room-choice-results"></div>
       </section>
+
+      <div class="previews-wrap">
+        <h2 class="room-previews">Room Previews</h2>
+        <section class="new-booking-bar" id="new-bookings-actual">
+          <!-- 
+          <div class="new-room-card" id="new-room-card-actual" tabindex="0">
+            <img class="room-img" src="" tabindex="0">
+            <p class="room-type"></p>
+            <p class="bed-size"></p>
+            <p class="num-of-beds"></p>
+            <p class="cost"></p>
+          </div> 
+          -->
+        </section>
+      </div>
   
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>

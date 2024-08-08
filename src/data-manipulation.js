@@ -31,8 +31,18 @@
  */
 
 import { testRooms } from '../test/test-data.js';
-import { fetchCustomer, fetchBookings, fetchRooms, roomsArray } from './api-calls.js';
-// import { displayContent, showMonies } from './dom-manipulations.js';
+import { fetchCustomer, fetchBookings, fetchRooms, roomsArray, postNewBooking } from './api-calls.js';
+import { displayContent, getNewBookingsDisplay, showMonies } from './dom-manipulations.js';
+
+/*
+****************************
+*>>>>> DATA VARIABLES <<<<<*
+****************************
+*/
+
+export const allRooms = [];
+export let typeList = [];
+
 
 /*
 *************************************
@@ -48,7 +58,6 @@ export const currentCustomer = {
   totalSpent: 0,
 };
 
-export const allRooms = []
 
 export function getCustomer(someData = '') {
   // console.log('someData in customer: ', someData)
@@ -136,8 +145,8 @@ export function getRoomsByDate(someData = '') {
   return sortedByDate;
 };
 
-export function checkRoomAvailiability(listOfRoomsByDate, aDate) {
-  console.log('IN CHECK AVAILIABLE FUNC: ', listOfRoomsByDate);
+export function checkRoomAvailiability(listOfRoomsByDate, aRoomList, aDate) {
+  // console.log('IN CHECK AVAILIABLE FUNC: ', listOfRoomsByDate);
 
   let result = [];
   let anotherResult = [];
@@ -150,7 +159,7 @@ export function checkRoomAvailiability(listOfRoomsByDate, aDate) {
 
   // console.log('DIS ONE -->', result);
 
-  testRooms.rooms.forEach((room) => {
+  aRoomList.forEach((room) => {
     if (result.includes(room.number) === false) {
       anotherResult.push(room);
     };
@@ -161,22 +170,23 @@ export function checkRoomAvailiability(listOfRoomsByDate, aDate) {
   return anotherResult;
 };
 
-/**
-bookings = [
-  2022 = [{
-    0: [
-      {1:[1,2,3,4,5]},
-      {2:[1,2,3,4,5]},
-      {3:[1,2,3,4,5]},
-    ],
-    1: [
-      {1:[1,2,3,4,5]},
-      {2:[1,2,3,4,5]},
-      {3:[1,2,3,4,5]},
-    ],
-  }]
-];
- */
+/*
+***********************************
+*>>>>> FILTER ROOMS FUNCTION <<<<<*
+***********************************
+*/
+
+export function roomTypeFilter(roomTypeChoice) {
+  console.log('In room type filter: ', roomsArray)
+
+  typeList = roomsArray.filter((room) => {
+    return room.roomType === roomTypeChoice;
+  })
+
+  console.log("typeList: ", typeList)
+  getNewBookingsDisplay(typeList);
+  return typeList
+};
 
 
 

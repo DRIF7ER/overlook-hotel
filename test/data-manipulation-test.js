@@ -3,7 +3,7 @@ const expect = chai.expect;
 
 import { currentCustomer, getBookings, getCustomer, getRoomReference,
    getTotalMoneySpent, getRoomsByDate, 
-   checkRoomAvailiability } from "../src/data-manipulation.js";
+   checkRoomAvailiability, roomTypeFilter } from "../src/data-manipulation.js";
 import { testRooms, testBookings, testBookings2, testCustomers } from "./test-data.js";
 
 describe("build a customer block", function() {
@@ -293,7 +293,7 @@ describe("be able to sort and add new bookings", function() {
   it("should return a list of availiable rooms for a given day", function() {
     let testSort = getRoomsByDate(testBookings2.bookings);
 
-    let testADate = checkRoomAvailiability(testSort, '2022/01/15')
+    let testADate = checkRoomAvailiability(testSort, testRooms.rooms, '2022/01/15')
 
     expect(testADate).to.deep.equal([
       {
@@ -343,5 +343,92 @@ describe("be able to sort and add new bookings", function() {
 });
 
 describe("should filter rooms by type and/or feature", function() {
-  it("should filter rooms by room type", function() {});
+  it("should be a function", function() {
+    expect(roomTypeFilter).to.be.a('function');
+  });
+  
+  it("should filter rooms by room type", function() {
+    let testFilter1 = roomTypeFilter(testRooms.rooms, "suite");
+    let testFilter2 = roomTypeFilter(testRooms.rooms, "single room");
+    let testFilter3 = roomTypeFilter(testRooms.rooms, "junior suite");
+
+    expect(testFilter1).to.deep.equal([
+      {
+        number: 2,
+        roomType: 'suite',
+        bidet: false,
+        bedSize: 'full',
+        numBeds: 2,
+        costPerNight: 477.38
+      },
+      {
+        number: 10,
+        roomType: 'suite',
+        bidet: false,
+        bedSize: 'twin',
+        numBeds: 1,
+        costPerNight: 497.64
+      }
+    ]);
+    expect(testFilter2).to.deep.equal([
+      {
+        number: 3,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'king',
+        numBeds: 1,
+        costPerNight: 491.14
+      },
+      {
+        number: 4,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 429.44
+      },
+      {
+        number: 5,
+        roomType: 'single room',
+        bidet: true,
+        bedSize: 'queen',
+        numBeds: 2,
+        costPerNight: 340.17
+      },
+      {
+        number: 7,
+        roomType: 'single room',
+        bidet: false,
+        bedSize: 'queen',
+        numBeds: 2,
+        costPerNight: 231.46
+      },
+      {
+        number: 9,
+        roomType: 'single room',
+        bidet: true,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 200.39
+      }
+    ]);
+    expect(testFilter3).to.deep.equal([
+      {
+        number: 6,
+        roomType: 'junior suite',
+        bidet: true,
+        bedSize: 'queen',
+        numBeds: 1,
+        costPerNight: 397.02
+      },
+      {
+        number: 8,
+        roomType: 'junior suite',
+        bidet: false,
+        bedSize: 'king',
+        numBeds: 1,
+        costPerNight: 261.26
+      }
+    ]);
+  });
 });

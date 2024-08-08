@@ -1,5 +1,5 @@
 import { fetchCustomer, roomsArray } from "./api-calls.js";
-import { currentCustomer } from "./data-manipulation.js";
+import { currentCustomer, roomTypeFilter, typeList } from "./data-manipulation.js";
 
 /*
 ***********************
@@ -19,7 +19,11 @@ let customerDashboard = document.getElementById("customer-page-id");
 let userPageBanner = document.querySelector(".customer-name-banner");
 let customerBookingsDisplay = document.getElementById("bookings-display");
 let moniesBar = document.getElementById("money-bar");
-let hotelRoomsDisplay = document.getElementById('new-bookings-actual');
+let hotelRoomsDisplay = document.getElementById("new-bookings-actual");
+
+export let roomTypeChoice = document.getElementById('room-types');
+let newBookingsDisplay = document.getElementById("room-choice-results");
+let roomTypeBtn = document.getElementById("room-type-button-actual");
 
 /*
 *****************************
@@ -33,7 +37,7 @@ loginBtn.addEventListener('click', () => {
     addListenerForDetails();
   }, 250);
 });
-// cardDeetsBtn.addEventListener('click', displayBookDetails);
+roomTypeBtn.addEventListener('click', roomTypeFilter);
 
 /*
 ***********************
@@ -149,6 +153,40 @@ export function bookedRoomsImgs() {
 export function showMonies(someData) {
   // console.log('money func: ', someData, moniesBar.children[2])
   moniesBar.children[0].innerText = `Total Cost Of All Current Bookings: $${someData}`
+};
+
+export function getNewBookingsDisplay() {
+  // console.log('HERE: ', roomTypeChoice.value)
+
+  let previewCards = document.querySelectorAll(".new-room-card")
+
+  // console.log(previewCards[0].children[2].innerText === `Room Type: ${roomTypeChoice.value}`)
+  newBookingsDisplay.innerHTML = '';
+
+  previewCards.forEach((card) => {
+    // console.log('HERE 2: ', card.children[2].innerText)
+    if (card.children[2].innerText === `Room Type: ${roomTypeChoice.value}`) {
+      console.log('worked', card.classList[0])
+
+      let prevCard = document.querySelector(`.${[card.classList[0]]}`);
+      let cloneCard = prevCard.cloneNode(true);
+
+      console.log(cloneCard)
+      newBookingsDisplay.appendChild(cloneCard);
+      // let cardCopy = `
+      // <div class="new-room-card" id="new-room-card-actual" tabindex="0">
+      //   <${card.children[0]}>
+      //   ${card.children[1]}
+      //   ${card.children[2]}
+      //   ${card.children[3]}
+      //   ${card.children[4]}
+      //   ${card.children[5]}
+      // </div>`;
+      
+      // newBookingsDisplay.innerHTML += cardCopy;
+      // console.log(cardCopy)
+    }
+  });
 };
 
 
