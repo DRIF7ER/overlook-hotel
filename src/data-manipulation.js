@@ -30,10 +30,7 @@ export const currentCustomer = {
 
 export function getCustomer(someData = '') {
 
-  // console.log(someData, "<-- CHECK THIS!")
-
   if (someData === '') {
-    // console.log('in sad path conditional')
     return "This user has not used Overlook services before!"
   };
 
@@ -142,8 +139,6 @@ export function checkRoomAvailiability(listOfRoomsByDate, aRoomList, aDate) {
   });
   
   if (typeof document !== 'undefined') {
-    // dateInput.value = '';
-    // getNewBookingsDisplay(anotherResult);
     roomTypeFilter(anotherResult, roomTypeChoice.value)
   };
 
@@ -167,70 +162,24 @@ export function roomTypeFilter(aRoomsList = '', aTypeString = '') {
   // *** vvThis if block is for using the API and DOM data. ***
   if (typeof document !== 'undefined') {
 
-    // console.log(dateInput.value !== '', 
-    //   aTypeString  === 'Please Select A Room Type',
-    //   '<-- HERE FOR 1ST CONDITIONAL'
-    // )
-
     if (dateInput.value !== '' && aTypeString === 'Please Select A Room Type') {
-      console.log('IN 1ST IF STATE') 
       getNewBookingsDisplay(aRoomsList);
     } else if (dateInput.value !== '' && aTypeString !== 'Please Select A Room Type') {
-
-      // console.log(dateInput.value !== '', 
-      //   aTypeString !== 'Please Select A Room Type',
-      //   '<-- HERE FOR 2ND CONDITIONAL')
-
       typeList = aRoomsList.filter((room) => {
         return room.roomType === aTypeString;
       });
-
-      // console.log(typeList, '<--HERE FOR 1ST TYPE LIST')
-
       getNewBookingsDisplay(typeList);
     } else if (dateInput.value === '' && aTypeString !== 'Please Select A Room Type...') {
-
-      // console.log(dateInput.value === '', 
-      //   aTypeString !== 'Please Select A Room Type...',
-      //   '<-- HERE FOR 3RD CONDITIONAL')
-
       typeList = aRoomsList.filter((room) => {
         return room.roomType === aTypeString;
       });
-
-      // console.log(typeList, '<--HERE FOR 2ND TYPE LIST')
 
       getNewBookingsDisplay(typeList);
     };
-    // getNewBookingsDisplay(typeList);
   };
 
   return typeList; // *** This return is for the test file. ***
 };
-
-// export function roomTypeFilter(aRoomsList = '', aTypeString = '') {
-
-//   // *** This code is for the test file but is the heart of the function in
-//   // both instances within roomTypeFilter. ***
-//   typeList = aRoomsList.filter((room) => {
-//     return room.roomType === aTypeString;
-//   });
-
-//   // *** vvThis if block is for using the API and DOM data. ***
-//   if (typeof document !== 'undefined') {
-//     if (dateInput.value !== '') {
-//       fetchBookingsForDateSearch();
-//     };
-
-//     typeList = roomsArray.filter((room) => {
-//       return room.roomType === roomTypeChoice.value
-//     })
-
-//     getNewBookingsDisplay(typeList);
-//   };
-
-//   return typeList; // *** This return is for the test file. ***
-// };
 
 /*
 *******************************************

@@ -26,8 +26,6 @@ let hotelRoomsDisplay = document.getElementById("new-bookings-actual");
 export let roomTypeChoice = document.getElementById('room-types');
 export let dateInput = document.getElementById('date-input');
 
-// console.log(roomTypeChoice.options[roomTypeChoice.selectedIndex].value);
-
 let newBookingsDisplay = document.getElementById("room-choice-results");
 let roomTypeBtn = document.getElementById("room-type-button-actual");
 
@@ -217,20 +215,3 @@ export async function addNewBookingToDOM(fromCurrentCustomer) {
       </div>`;
   });
 };
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-*********************
-*>>>>> NAME ME <<<<<*
-*********************
-*/
