@@ -8,50 +8,56 @@
   <title>Webpack Starter Kit</title>
 </head>
 <body class="before-customer-page" id="body-actual">
-  <div class="mock-page-wrap login-page" id="login-page-id">
-    <div class="form-wrap-inner">
-      <form class="user-login-form">
-        <label for="username">Username: </label>
-        <input type="text" id="username">
-        <label for="password">Password: </label>
-        <input type="text" id="password">
-        <button type="button" class="login-button" id="login-button-actual">Log In</button>
-      </form>
+  <div class="login-page-wrap" id="login-page-wrap-id">
+    <div class="mock-page-wrap login-page" id="login-page-id">
+      <h1 class="overlook-hotel-banner"> Overlook Hotel </h1>
+      <div class="form-wrap-inner">
+        <form class="user-login-form">
+          <label for="username">Username: </label>
+          <input type="text" id="username">
+          <label for="password">Password: </label>
+          <input type="text" id="password">
+          <button type="button" class="login-button" id="login-button-actual">Log In</button>
+        </form>
+      </div>
     </div>
   </div>
 
   <div class="mock-page-wrap customer-page hidden" id="customer-page-id">
     <div class="customer-page-inner">
       <h1 class="customer-name-banner"></h1>
-      <section class="my-bookings" id="bookings-display">
-        <!-- 
-        <div class="booking-card">
-          <p class="date">Date</p>
-          <p class="room">Room Number</p>
-          <button type="button" class="book-card-detals" id="card-button">View Booking Details</button>
-        </div> 
-        -->
-      </section>
+      <div class="bookings-wrap">
+        <h2 class="my-bookings-tab-title"> My Bookings: </h2>
+        <section class="my-bookings" id="bookings-display">
+          <!-- 
+          <div class="booking-card">
+            <p class="date">Date</p>
+            <p class="room">Room Number</p>
+            <button type="button" class="book-card-detals" id="card-button">View Booking Details</button>
+          </div> 
+          -->
+        </section>
+      </div>
       <!-- <button class="books-button" id="show-my-books-button-actual">Show My Bookings</button> -->
        <section class="money-stuff" id="money-bar">
          <p class="total-spent" id="total-spent-actual"></p>
        </section>
        
       <section class="book-a-new-room" id="book-new-actual">
-        <ul class="search-options">
+        <datalist class="search-options">
           <h2 class="booking-bar-title">Select A New Booking!</h2>
           <label for="date-input">Date: </label>
-          <input type="text" id="date-input"placeholder="yyyy/mm/dd" aria-placeholder="yyyy/mm/dd">
+          <input type="text" id="date-input" placeholder="yyyy/mm/dd" aria-placeholder="yyyy/mm/dd">
           <label for="room-types">Room Options: </label>
           <select id="room-types">
-            <option value="Please select-a-room-type" selected>  Please Select A Room Type...  </option>
+            <option value="Please Select A Room Type" selected>  Please Select A Room Type...  </option>
             <option value="residential suite">Residential Suite</option>
             <option value="junior suite">Junior Suite</option>
             <option value="suite">Suite</option>
             <option value="single room">Single Room</option>
           </select>
           <button class="room-type-button" id="room-type-button-actual">Search</button>
-        </ul>
+        </datalist>
         <div class="search-results" id="room-choice-results"></div>
       </section>
 
@@ -69,6 +75,8 @@
           -->
         </section>
       </div>
+    </div>
+  </div>
   
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>

@@ -20,6 +20,10 @@ export const testCustomers = {
       "id": 5,
       "name": "Rhiannon Little"
     },
+    {
+      "id": 6,
+      "name": "Tom Riddle"
+    }
   ]
 };
 
