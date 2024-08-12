@@ -1,4 +1,4 @@
-import { fetchCustomer, postNewBooking, roomsArray } from "./api-calls.js";
+import { fetchBookingsForDateSearch, fetchCustomer, postNewBooking, roomsArray } from "./api-calls.js";
 import { currentCustomer, roomTypeFilter, typeList } from "./data-manipulation.js";
 
 /*
@@ -7,13 +7,15 @@ import { currentCustomer, roomTypeFilter, typeList } from "./data-manipulation.j
 ***********************
 */
 
+// if (typeof document !== "undefined") {}
+
 let siteBody = document.getElementById("body-actual");
 
 let usernameInput = document.getElementById("username");
 let userPasswordInput = document.getElementById("password");
 let loginBtn = document.getElementById("login-button-actual");
 
-let loginPage = document.getElementById("login-page-id");
+let loginPage = document.getElementById("login-page-wrap-id");
 let customerDashboard = document.getElementById("customer-page-id");
 
 let userPageBanner = document.querySelector(".customer-name-banner");
@@ -24,7 +26,7 @@ let hotelRoomsDisplay = document.getElementById("new-bookings-actual");
 export let roomTypeChoice = document.getElementById('room-types');
 export let dateInput = document.getElementById('date-input');
 
-console.log(roomTypeChoice.options[roomTypeChoice.selectedIndex].value);
+// console.log(roomTypeChoice.options[roomTypeChoice.selectedIndex].value);
 
 let newBookingsDisplay = document.getElementById("room-choice-results");
 let roomTypeBtn = document.getElementById("room-type-button-actual");
@@ -41,7 +43,9 @@ loginBtn.addEventListener('click', () => {
     addListenerForDetails();
   }, 250);
 });
-roomTypeBtn.addEventListener('click', roomTypeFilter);
+roomTypeBtn.addEventListener('click', event => {
+  fetchBookingsForDateSearch();
+});
 
 /*
 ***********************
@@ -50,32 +54,31 @@ roomTypeBtn.addEventListener('click', roomTypeFilter);
 */
 
 async function callForLogin() {
-  // console.log('callLogin func: ', usernameInput.value, userPasswordInput.value)
 
   let userInputName = usernameInput.value.match(/(\d+)/)[0];
   let userInputPassword = userPasswordInput.value;
 
   let actualCustomer = await fetchCustomer(userInputName);
 
-  // console.log('actualCustomer in callLogin func: ', actualCustomer)
-
   if (actualCustomer === true && userInputPassword === 'overlook2024') {
-    // console.log('log > cust success')
     loginPage.classList.add('hidden');
     customerDashboard.classList.remove('hidden');
     siteBody.classList.remove('before-customer-page')
+  } else if (actualCustomer === false && userInputPassword === 'overlook2024') {
+    alert('Please enter a valid username and password!');
+  } else if (actualCustomer === true && userInputPassword !== 'overlook2024') {
+    alert('Please enter a valid username and password!');
+  } else if (actualCustomer === false && userInputPassword !== 'overlook2024') {
+    alert('Your credentials are incorrect!');
   };
 };
 
 export async function displayContent(fromCurrentCustomer) {
   customerBookingsDisplay.innerHTML = null;
 
-  // console.log('from display: ', await fromCurrentCustomer)
-
   userPageBanner.textContent = `Welcome To Overlook ${currentCustomer.name}`;
 
   await fromCurrentCustomer.currentBookings.forEach((booking) => {
-    // console.log('HERE: ', booking.roomObjRef.costPerNight)
 
     customerBookingsDisplay.innerHTML += `
       <div class="booking-card">
@@ -106,10 +109,10 @@ export function addListenerForDetails() {
 export function displayCardDeets(anEvent) {
   let cardDeets = document.querySelectorAll('.card-details');
   cardDeets.forEach((card) => {
-    // console.log('HERE: ', anEvent)
-    if (anEvent.target.parentElement === card.parentElement) {
-      console.log('in if for display')
-      card.classList.remove('hidden')
+    if (anEvent.target.parentElement === card.parentElement && card.classList.contains('hidden')) {
+      card.classList.remove('hidden');
+    } else if (anEvent.target.parentElement === card.parentElement && !card.classList.contains('hidden')) {
+      card.classList.add('hidden');
     };
   })
 };
@@ -124,7 +127,7 @@ function displayRooms() {
     let imgPicked = randomPic(25);
     hotelRoomsDisplay.innerHTML += `
       <div class="new-room-card" id="new-room-card-actual" tabindex="0">
-        <img class="room-img" src="./images/hotel-pic-${imgPicked}.png" tabindex="0">
+        <img class="room-img" src="./images/hotel-pic-${imgPicked}.png" alt="Room image for room number ${room.number}" tabindex="0">
         <p class="room-number hidden">Room Number: ${room.number}</p>
         <p class="room-type">Room Type: ${room.roomType}</p>
         <p class="bed-size">Bed Size: ${room.bedSize}</p>
@@ -139,30 +142,21 @@ function displayRooms() {
 
 export function bookedRoomsImgs() {
   let customerRooms = document.querySelectorAll(".booking-card");
-  // console.log('CHECK WHAT I HAVE: ', roomsArray, currentCustomer.currentBookings, customerRooms);
 
   customerRooms.forEach((room) => {
-    // console.log('De Room: ', room.children[0].children[0])
-    // console.log('De Room #: ', room.children[0].children[2].innerText.match(/(\d+)/)[0])
     currentCustomer.currentBookings.forEach((booking) => {
-      // console.log('CHECK CONDITIONAL: ', booking.roomNumber == room.children[0].children[2].innerText.match(/(\d+)/)[0], booking.roomNumber, room.children[0].children[2].innerText.match(/(\d+)/)[0])
       if (booking.roomNumber == room.children[0].children[2].innerText.match(/(\d+)/)[0]) {
-        // console.log('hit innerHTML')
-        room.children[0].children[0].innerHTML = `<img class="room-img" src="./images/hotel-pic-${booking.roomObjRef.roomImg}.png" tabindex="0">`
+        room.children[0].children[0].innerHTML = `<img class="room-img" src="./images/hotel-pic-${booking.roomObjRef.roomImg}.png" alt="Room image for room number ${booking.roomObjRef.number}" tabindex="0">`
       };
     });
   });
 };
 
 export function showMonies(someData) {
-  // console.log('money func: ', someData, moniesBar.children[2])
   moniesBar.children[0].innerText = `Total Cost Of All Current Bookings: $${someData}`
 };
 
 export function getNewBookingsDisplay(aList) {
-  // console.log('HERE: ', aList)
-
-  // let previewCards = document.querySelectorAll(".new-room-card")
 
   newBookingsDisplay.innerHTML = '';
 
@@ -175,12 +169,11 @@ export function getNewBookingsDisplay(aList) {
       rmNum: room.number,
       imgForRoom: room.roomImg,
       typeOfRoom: room.roomType,
-    }
-    // console.log('ALSO HERE: ', roomObj)
+    };
 
     newBookingsDisplay.innerHTML += `
     <div class="book-this-room-card" id="book-this-room-actual" tabindex="0">
-        <img class="room-img" src="./images/hotel-pic-${roomObj.imgForRoom}.png" tabindex="0">
+        <img class="room-img" src="./images/hotel-pic-${roomObj.imgForRoom}.png" alt="Room image for room number ${roomObj.rmNum}" tabindex="0">
         <p class="room-number hidden">Room Number: ${roomObj.rmNum}</p>
         <p class="room-type">Room Type: ${roomObj.typeOfRoom}</p>
         <p class="bed-size">Bed Size: ${roomObj.sizeOfBed}</p>
@@ -199,7 +192,31 @@ function assignBookListeners() {
   bookBtns.forEach((button) => {
     button.addEventListener('click', postNewBooking)
   });
-}
+};
+
+export async function addNewBookingToDOM(fromCurrentCustomer) {
+  customerBookingsDisplay.innerHTML = null;
+
+  userPageBanner.textContent = `Welcome To Overlook ${currentCustomer.name}`;
+
+  await fromCurrentCustomer.currentBookings.forEach((booking) => {
+
+    customerBookingsDisplay.innerHTML += `
+      <div class="booking-card">
+        <div class="date-and-room-wrap">
+          <div class="room-img-cont">
+            <img class="room-img" src="./images/hotel-pic-${booking.roomObjRef.roomImg}.png" alt="Room image for room number ${booking.roomNumber}" tabindex="0">
+          </div>
+          <p class="date">Booked for: ${booking.date}</p>
+          <p class="room">Room Number: ${booking.roomNumber}</p>
+        </div>
+        <div class="card-details hidden">
+          <p class="cost-of-room">Price: $${booking.roomObjRef.costPerNight} per night</p>
+        </div>
+        <button type="button" class="book-card-detals" id="card-button-actual">View Booking Details</button>
+      </div>`;
+  });
+};
 
 
 

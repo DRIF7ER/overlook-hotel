@@ -1,38 +1,7 @@
-/**
- * Need to figure out what my customer object is going to look like.
- * 
- * first one might be this:
- * 
- * const currentCustomer = {
- *  currentBookings: [
- *    {book1}, 
- *    {book2}, 
- *    {book3},
- *    {
- *      id": "5fwrgu4i7k55hl6sz",
- *      "userID": 9,
- *      "date": "2022/04/22",
- *      "roomNumber": 1
- *      roomObjRef: {
- *        "number": 1,
- *        "roomType": "residential suite",
- *        "bidet": true,
- *        "bedSize": "queen",
- *        "numBeds": 1,
- *        "costPerNight": 358.4
- *        }
- *    }
- *  ],
- *  newBookings: [
- *    {newBook1}
- *  ],
- *  totalSpent: 0,
- * };
- */
-
-import { testRooms } from '../test/test-data.js';
+// import { testRooms, testCustomers, testBookings, testBookings2,  } from '../test/test-data.js';
 import { fetchCustomer, fetchBookings, fetchRooms, roomsArray, postNewBooking, fetchBookingsForDateSearch } from './api-calls.js';
-import { displayContent, getNewBookingsDisplay, showMonies, roomTypeChoice, dateInput } from './dom-manipulations.js';
+import { displayContent, getNewBookingsDisplay, showMonies, roomTypeChoice, dateInput, addNewBookingToDOM } from './dom-manipulations.js';
+// *** TO RUN TESTS; DISABLE THE DOM MANIPULATIONS IMPORT.^^^^^^^^^^^^^ ***
 
 /*
 ****************************
@@ -60,50 +29,71 @@ export const currentCustomer = {
 
 
 export function getCustomer(someData = '') {
-  // console.log('someData in customer: ', someData)
+
+  // console.log(someData, "<-- CHECK THIS!")
+
+  if (someData === '') {
+    // console.log('in sad path conditional')
+    return "This user has not used Overlook services before!"
+  };
+
   currentCustomer.customerID = someData.id;
   currentCustomer.name = someData.name;
+
   fetchBookings(someData);
+
   return currentCustomer;
 };
 
 export function getBookings(someData = '') {
-  // console.log('someData in Bookings: ', someData)
+
+  if (someData === '') {
+    return "This user has no bookings!"
+  };
+
   currentCustomer.currentBookings = []
+
   someData.forEach((booking) => {
     currentCustomer.currentBookings.push(booking);
   });
+
   fetchRooms();
+
   return currentCustomer;
 };
 
 export function getRoomReference(someData = '') {
-  // console.log('someData in roomRef: ', someData)
+
   currentCustomer.currentBookings.forEach((custoBooking) => {
+    
     someData.forEach((room) => {
+
       if (custoBooking.roomNumber === room.number) {
         custoBooking.roomObjRef = room;
       };
-    })
+    });
   });
-  // console.log('HERE: ', someData !== 'testRooms.rooms')
+
   if (someData !== 'testRooms.rooms') {
     getTotalMoneySpent(currentCustomer);
   };
+
   return currentCustomer;
 };
 
 export function getTotalMoneySpent(someData) {
-  // console.log('someData in getMoneySpent: ', someData)
+
   let calulatedTotal = 0;
+
   someData.currentBookings.forEach((booking) => {
     calulatedTotal += booking.roomObjRef.costPerNight; 
   });
-  // console.log(currentCustomer.currentBookings.length > 5)
-  if (currentCustomer.currentBookings.length > 5) {
+
+  if (currentCustomer.currentBookings.length > 6) {
     displayContent(currentCustomer)
     showMonies(calulatedTotal.toFixed(2));
-  }
+  };
+
   return calulatedTotal.toFixed(2);
 };
 
@@ -114,27 +104,27 @@ export function getTotalMoneySpent(someData) {
 */
 
 export function getRoomsByDate(someData = '') {
-  // console.log('HERE IN ROOMS BY DATE: ', someData);
 
   let sortedByDate = someData.reduce((acc, booking) => {
+
     let dateAndRoomObj = {
       date: booking.date,
       room: booking.roomNumber,
     };
+
     acc.push(dateAndRoomObj);
+
     return acc;
   }, []);
-
-  // console.log('AFTER REDUCE IN ROOMS BY DATE: ', someData[0].date);
   
-  if (someData[0].date !== "2022/01/15") {
-    checkRoomAvailiability(sortedByDate, roomsArray, dateInput.value = '');
+  if (typeof document !== 'undefined') {
+    checkRoomAvailiability(sortedByDate, roomsArray, dateInput.value);
   };
+
   return sortedByDate;
 };
 
 export function checkRoomAvailiability(listOfRoomsByDate, aRoomList, aDate) {
-  // console.log('IN CHECK AVAILIABLE FUNC: ', listOfRoomsByDate);
 
   let result = [];
   let anotherResult = [];
@@ -145,22 +135,18 @@ export function checkRoomAvailiability(listOfRoomsByDate, aRoomList, aDate) {
     };
   });
 
-  // console.log('DIS ONE -->', result);
-
   aRoomList.forEach((room) => {
     if (result.includes(room.number) === false) {
       anotherResult.push(room);
     };
   });
-
-  // console.log(anotherResult, '<-- DIS ONE 2')
-  // console.log(result !== [ 1, 3, 5, 7, 9 ], '<-- DIS ONE 2')
-
   
-  if (listOfRoomsByDate[0].date !== '2022/01/15') {
-    dateInput.value = '';
-    getNewBookingsDisplay(anotherResult);
+  if (typeof document !== 'undefined') {
+    // dateInput.value = '';
+    // getNewBookingsDisplay(anotherResult);
+    roomTypeFilter(anotherResult, roomTypeChoice.value)
   };
+
   return anotherResult;
 };
 
@@ -171,34 +157,128 @@ export function checkRoomAvailiability(listOfRoomsByDate, aRoomList, aDate) {
 */
 
 export function roomTypeFilter(aRoomsList = '', aTypeString = '') {
-  console.log('In room type filter: ', aRoomsList, aTypeString)
 
-  if (aRoomsList.length !== 10) {
-    if (dateInput.value !== '') {
-      console.log('should be true: ', dateInput.value !== '')
-      fetchBookingsForDateSearch();
+  // *** This code is for the test file but is the heart of the function in
+  // both instances within roomTypeFilter. ***
+  typeList = aRoomsList.filter((room) => {
+    return room.roomType === aTypeString;
+  });
+
+  // *** vvThis if block is for using the API and DOM data. ***
+  if (typeof document !== 'undefined') {
+
+    // console.log(dateInput.value !== '', 
+    //   aTypeString  === 'Please Select A Room Type',
+    //   '<-- HERE FOR 1ST CONDITIONAL'
+    // )
+
+    if (dateInput.value !== '' && aTypeString === 'Please Select A Room Type') {
+      console.log('IN 1ST IF STATE') 
+      getNewBookingsDisplay(aRoomsList);
+    } else if (dateInput.value !== '' && aTypeString !== 'Please Select A Room Type') {
+
+      // console.log(dateInput.value !== '', 
+      //   aTypeString !== 'Please Select A Room Type',
+      //   '<-- HERE FOR 2ND CONDITIONAL')
+
+      typeList = aRoomsList.filter((room) => {
+        return room.roomType === aTypeString;
+      });
+
+      // console.log(typeList, '<--HERE FOR 1ST TYPE LIST')
+
+      getNewBookingsDisplay(typeList);
+    } else if (dateInput.value === '' && aTypeString !== 'Please Select A Room Type...') {
+
+      // console.log(dateInput.value === '', 
+      //   aTypeString !== 'Please Select A Room Type...',
+      //   '<-- HERE FOR 3RD CONDITIONAL')
+
+      typeList = aRoomsList.filter((room) => {
+        return room.roomType === aTypeString;
+      });
+
+      // console.log(typeList, '<--HERE FOR 2ND TYPE LIST')
+
+      getNewBookingsDisplay(typeList);
     };
+    // getNewBookingsDisplay(typeList);
   };
 
-  if (aRoomsList.length === 10) {
-    console.log('test hit');
-    typeList = aRoomsList.filter((room) => {
-      console.log('In Filter for filter: ', aTypeString)
-      return room.roomType === aTypeString;
+  return typeList; // *** This return is for the test file. ***
+};
+
+// export function roomTypeFilter(aRoomsList = '', aTypeString = '') {
+
+//   // *** This code is for the test file but is the heart of the function in
+//   // both instances within roomTypeFilter. ***
+//   typeList = aRoomsList.filter((room) => {
+//     return room.roomType === aTypeString;
+//   });
+
+//   // *** vvThis if block is for using the API and DOM data. ***
+//   if (typeof document !== 'undefined') {
+//     if (dateInput.value !== '') {
+//       fetchBookingsForDateSearch();
+//     };
+
+//     typeList = roomsArray.filter((room) => {
+//       return room.roomType === roomTypeChoice.value
+//     })
+
+//     getNewBookingsDisplay(typeList);
+//   };
+
+//   return typeList; // *** This return is for the test file. ***
+// };
+
+/*
+*******************************************
+*>>>>> FUNCTIONS FOR AFTER A POSTING <<<<<*
+*******************************************
+*/
+
+export function getBookingsAfterPost(newData) {
+
+  currentCustomer.currentBookings = []
+
+  newData.forEach((booking) => {
+    currentCustomer.currentBookings.push(booking);
+  });
+
+  getRoomRefAfterPost(currentCustomer);
+  return currentCustomer;
+};
+
+function getRoomRefAfterPost(fromCurrentCustomer) {
+  fromCurrentCustomer.currentBookings.forEach((custoBooking) => {
+    
+    roomsArray.forEach((room) => {
+      if (custoBooking.roomNumber === room.number) {
+        custoBooking.roomObjRef = room;
+      };
     });
-    return typeList;
+  });
+
+  if (typeof document !== "undefined") {
+    updateCostAfterPost(currentCustomer);
+    addNewBookingToDOM(currentCustomer);
   };
 
-  typeList = roomsArray.filter((room) => {
-    console.log('In Filter for filter: ', roomTypeChoice.value)
-    return room.roomType === roomTypeChoice.value;
-  })
+  return currentCustomer;
+};
 
-  console.log("typeList: ", typeList)
-  if (aRoomsList.length !== 10) {
-    getNewBookingsDisplay(typeList);
-  };
-  return typeList
+function updateCostAfterPost(fromCurrentCustomer) {
+  let calulatedTotal = 0;
+
+  fromCurrentCustomer.currentBookings.forEach((booking) => {
+    calulatedTotal += booking.roomObjRef.costPerNight; 
+  });
+
+  if (typeof document !== "undefined") {
+    showMonies(calulatedTotal.toFixed(2));
+  }; 
+  return calulatedTotal.toFixed(2);
 };
 
 
